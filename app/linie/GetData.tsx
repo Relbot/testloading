@@ -1,5 +1,4 @@
 import Image from 'next/image'
-import TestButtonWithFetch from '../components/testButton'
 
 
 const getInfo =  async () => {
@@ -11,10 +10,23 @@ const getInfo =  async () => {
   ]
 }
 
-export default async function Home() {
+export default async function GetData({
+  params,
+  searchParams,
+}: {
+  params: { slug: string }
+  searchParams: { [key: string]: string | string[] | undefined }
+}) {
 
-  const info = await getInfo()
+  var info = await getInfo()
 
+
+  const filter = searchParams?.filter
+
+  if (filter) {
+    info = info.filter(i => i === filter)
+  }
+  
   return (
     <main className="flex flex-col">
       {
